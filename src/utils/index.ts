@@ -1,4 +1,5 @@
 import {MutableRefObject} from "react"
+export * from "./clickListener"
 
 export function preventDefaults(event: any): void {
     event.preventDefault()
@@ -44,3 +45,25 @@ export function readDateFromRawTask(date: string | Date): Date | null {
     }
     return null
 }
+
+export function isEmpty(trg: any) {
+    if (trg === null || trg === undefined) {
+        return true
+    }
+    if(Array.isArray(trg) || typeof trg === "string") {
+        return trg.length === 0
+    }
+
+    if (typeof trg === "object") {
+        return Object.keys(trg).length === 0
+    }
+    return false 
+
+}
+
+export function validateRegexStr(rx: string, value: string): boolean {
+    let regex = new RegExp(rx)
+    return regex.test(value)
+}
+
+

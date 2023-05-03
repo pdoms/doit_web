@@ -1,3 +1,4 @@
+import {DateTime} from "../comps/datetime/datetime";
 import Task from "./task";
 
 export default class Tasks {
@@ -86,6 +87,15 @@ export default class Tasks {
         this.print_current()
     }
 
+    setDue(due: DateTime) {
+        if (this.current_task && this.current_task !== null) {
+            this.current_task.setDue(due)
+        }
+        this.print_current()
+    }
+
+    
+
     resetCurrent() {
         this.current_task = null 
     }
@@ -97,7 +107,8 @@ export default class Tasks {
         if (this.url && !this.url.endsWith("/")) {
             this.url += "/";
         }
-        let request: Request = new Request(this.url, {
+        let url = this.url + "create"
+        let request: Request = new Request(url, {
             method: "POST",
             body: this._current_to_body(),
             headers: {
@@ -118,10 +129,32 @@ export default class Tasks {
         if (this.current_task !== null) {
         let dto = {
             name: this.current_task.name,
-            description: this.current_task.description || ""
+            description: this.current_task.description || "",
+            due: this.current_task.due || null
             }
+            console.log(JSON.stringify(dto))
             return JSON.stringify(dto)
         }
         return null
+    }
+
+    async get_by_id(id: string, set_current=false): Promise<Task> {
+        if (!this.url) {
+            return {} as Task
+        }
+        if (this.url && !this.url.endsWith("/")) {
+            this.url += "/";
+        }
+        let url = this.url + id;
+        let response: Response = await fetch(url);
+        if (response.status === 200) {
+            let raw_task = await response.json();
+            let task = Task.fromRaw(raw_task)
+            if (set_current) {
+                this.current_task = task;
+            }
+            return task;
+        }
+        return {} as Task
     }
 }

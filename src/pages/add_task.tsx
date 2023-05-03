@@ -1,5 +1,6 @@
 import React, {FC, useContext, useEffect, useState} from 'react';
-import {TextArea, TextInput} from '../comps';
+import {DateTimePicker, TextArea, TextInput} from '../comps';
+import {DateTime} from '../comps/datetime/datetime';
 import {TextBtn} from '../comps/text_btn';
 import {TasksContext} from '../contexts/tasksContext';
 import {isRef} from '../utils';
@@ -19,7 +20,7 @@ export const AddTask: FC<IAddTask> = ({onDiscard}) => {
         }
     }, [])
 
-    const handleInput = (key: string, value: string, _event: any) => {
+    const handleInput = (key: string, value: string | DateTime, _event: any) => {
         if (isRef(tasks)) {
             let ts = tasks.current
             switch (key) {
@@ -28,6 +29,10 @@ export const AddTask: FC<IAddTask> = ({onDiscard}) => {
                     break;
                 case "description":
                     ts.setDescription(value)
+                    break;
+                case "due":
+                    ts.setDue(value)
+                    break;
                 default: 
                     break;
             }
@@ -45,6 +50,7 @@ export const AddTask: FC<IAddTask> = ({onDiscard}) => {
       return (
         <>
             <div className="add-task-section">
+            <div className="add-task-section-left">
                 <TextInput
                     id="add-task-name"
                     value={""}
@@ -67,7 +73,19 @@ export const AddTask: FC<IAddTask> = ({onDiscard}) => {
                         }}
                         reset={reset}
                 />
-                <div className={"btn-group-row right"}>
+                </div>
+            <div className="add-task-section-right">
+                    <DateTimePicker 
+                        call={false}
+                        getDT={(dt: DateTime) => {
+                            handleInput("due", dt, null)
+                        }}
+                    />
+            </div>
+            </div>
+                <div 
+                style={{width: "530px", marginBottom: "20px"}}
+                className={"btn-group-row right"}>
                     <TextBtn 
                         id={"abort-task"}
                         text={"discard"}
@@ -85,7 +103,6 @@ export const AddTask: FC<IAddTask> = ({onDiscard}) => {
                         onClick={doCreate}
                     />
                 </div>
-            </div>
         </>
       );
 };

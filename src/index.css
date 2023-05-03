@@ -29,8 +29,7 @@ body {
 
 /* ################COMPS################## */
 .error {
-    font-size: 14px;
-    color: var(--global-error-color);
+    font-size: 14px; color: var(--global-error-color);
 }
 
 .btn-group-row {
@@ -158,12 +157,270 @@ body {
 
 
 
+/* ###### Date Time Input ######*/
+
+
+.dt-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 8px 4px;
+    position: relative;
+    width: 126px;
+}
+
+.dt-input-label {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+.dt-input-label.focused {
+    color: var(--global-blue1);
+}
+.dt-input-label.errs {
+    color: var(--global-error-color);
+}
+
+.dt-input-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background: 
+}
+.dt-input-calender-btn {
+    display: flex;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 3px 3px 0px;
+    background: var(--global-background-gray);
+    color: var(--global-text1);
+    padding-right: 2px;
+    border-top: 1px solid var(--global-thin-border);
+    border-right: 1px solid var(--global-thin-border);
+    border-bottom: 1px solid var(--global-thin-border);
+    border-left: none;
+}
+
+.dt-input-calender-btn:hover {
+    color: var(--global-blue1);
+}
+
+.dt-input-calender-btn.focused {
+    border-top: 1px solid var(--global-blue1);
+    border-right: 1px solid var(--global-blue1);
+    border-bottom: 1px solid var(--global-blue1);
+    border-left: none;
+    outline: none;
+}
+
+.dt-input-calender-btn.errs {
+    border-top: 1px solid var(--global-error-color);
+    border-right: 1px solid var(--global-error-color);
+    border-bottom: 1px solid var(--global-error-color);
+    border-left: none;
+    outline: none;
+}
+
+.dt-input-text-input {
+    padding-left: 2px;
+    border-radius: 3px 0px 0px 3px;
+    border-top: 1px solid var(--global-thin-border);
+    border-left: 1px solid var(--global-thin-border);
+    border-bottom: 1px solid var(--global-thin-border);
+    border-right: none;
+    outline: none;
+    height: 22px;
+    background: var(--global-background-gray);
+    color: var(--global-text1);
+    width: 100%;
+}
+.dt-input-text-input.focused {
+    border-top: 1px solid var(--global-blue1);
+    border-left: 1px solid var(--global-blue1);
+    border-bottom: 1px solid var(--global-blue1);
+    outline: none;
+}
+.dt-input-text-input.errs {
+    border-top: 1px solid var(--global-error-color);
+    border-left: 1px solid var(--global-error-color);
+    border-bottom: 1px solid var(--global-error-color);
+    outline: none;
+}
+
+
+.dt-time-input-text-input {
+    padding: 0 2px;
+    border-radius: 3px;
+    border: 1px solid var(--global-thin-border);
+    outline: none;
+    height: 22px;
+    background: var(--global-background-gray);
+    color: var(--global-text1);
+    width: 30px;
+}
+.dt-time-input-text-input.focused {
+    border: 1px solid var(--global-blue1);
+    outline: none;
+}
+.dt-time-input-text-input.errs {
+    border: 1px solid var(--global-error-color);
+    outline: none;
+}
+
+.dt-time-colon {
+    width: 13px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.dt-time-period-wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 22px;
+    width: 26px;
+    margin-left: 13px;
+}
+.dt-time-period {
+    width: 26px;
+}
+.dt-time-period:hover {
+    color: var(--global-blue1);
+    cursor: pointer;
+}
+.dt-time-period.pm.shows {
+    transform: translateX(-22px);
+    transition: transform 0.5s linear
+
+    
+}
+.dt-time-period.pm.hidden {
+    transform: translateX(-64px);
+    transition: transform 0.5s linear
+}
+
+.dt-time-period.am.shows {
+    transform: translateX(2px);
+    transition: transform 0.5s linear
+
+}
+.dt-time-period.am.hidden {
+    transform: translateX(-64px);
+    transition: transform 0.5s linear
+}
 
 
 
 
 
-/* ###############PAGES#@################# */
+.dt-calendar-wrapper {
+    position: absolute;
+    top: 46px;
+    left: 0px;
+    width: 200px;
+    z-index: 1;
+    background: var(--global-background2);
+    border: 1px solid var(--global-background-gray);
+    box-shadow: 2px 2px 4px 4px rgba(0,0,0,0.2);
+}
+
+.cal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin: 8px 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--global-thin-border)
+}
+
+.cal-arrow-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cal-month-year {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.cal-month-year-unit {
+    margin: 5px;
+}
+
+.cal-days {
+    box-sizing: border-box;
+    width: 200px;
+    padding-left: 7px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.cal-tile {
+    box-sizing: border-box;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cal-tile.weekday {
+    font-weight: bold;
+}
+.cal-tile.off {
+    opacity: 0.5;
+}
+.cal-tile.day:hover {
+    background: var(--global-blue1);
+    cursor: pointer;
+}
+
+.cal-tile.selected {
+    background: var(--global-blue1);
+}
+
+.cal-tile.today {
+    background: var(--global-bg-sec-opaque);
+}
+
+.cal-tile.today:hover {
+    background: var(--global-blue1);
+    cursor: pointer;
+}
+
+.cal-footer {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cal-footer-btn {
+    border: 1px solid var(--global-thin-border);
+    padding: 1px 4px;
+    margin-bottom: 4px;
+}
+
+.cal-footer-btn:hover {
+    border: 1px solid var(--global-blue1);
+    color: var(--global-blue1);
+    cursor: pointer;
+
+}
+
+
+/* ###############PAGES################### */
 .dashboard {
     box-sizing: border-box;
     width: 80vw;
@@ -218,8 +475,27 @@ tbody tr:hover  {
 
 
 .add-task-section {
-    max-width: 400px;
-    margin-bottom: 20px;
+    width: 540px;
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
+
+.add-task-section-left {
+    width: 400px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.add-task-section-right {
+    width: 140px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+
+
+
 
 

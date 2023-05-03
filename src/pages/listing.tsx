@@ -37,6 +37,7 @@ export const Listing: FC<{}> = () => {
                     <th>Description</th>
                     <th>Created</th>
                     <th>Last Update</th>
+                    <th>Due</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -50,6 +51,7 @@ export const Listing: FC<{}> = () => {
                                 <td>{tsk.description || "-"}</td>
                                 <td>{tsk.getCreatedAt()}</td>
                                 <td>{tsk.getUpdatedAt()}</td>
+                                <td>{tsk.getDue()}</td>
                                 <td>{tsk.status}</td>
                                 <td>---</td>
                             </tr>
