@@ -3,6 +3,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {IconBtn} from '../../comps/icn_btn';
 
 interface IDashBoardHeader {
+    isEdit: boolean
     onAdd: (state: boolean) => void
     discard: boolean
 }
@@ -10,7 +11,8 @@ interface IDashBoardHeader {
 export const DashBoardHeader: FC<IDashBoardHeader>  = (
     {
         onAdd,
-        discard
+        discard,
+        isEdit
     }) => {
     const [isOpen, setIsOpen] = useState(false)
     
@@ -27,7 +29,7 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
 
     return (<>
         <div className='dashboard-header'>
-            {isOpen ? <div>Create Task</div>:<div>Your Tasks</div>}
+            {isOpen ? <div>Create Task</div>: isEdit ? <div>Edit Task</div>:<div>Your Tasks</div>}
             <div>
                 <IconBtn 
                     id={"create-task"} 

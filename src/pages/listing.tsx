@@ -1,12 +1,19 @@
+import {mdiCheck, mdiClose, mdiPencil} from '@mdi/js';
+import Icon from '@mdi/react';
 import React, { FC, SetStateAction, useContext, useEffect, useState } from 'react';
 import {TasksContext} from '../contexts/tasksContext';
 import Task from '../tasks/task';
-import {getRestUrl, isRef, waitForRef} from '../utils';
+import {getRestUrl, isRef, preventDefaults, waitForRef} from '../utils';
 
-export const Listing: FC<{}> = () => {
+interface IListing {
+    openForEdit: (task_id: string) => void
+}
+
+export const Listing: FC<IListing> = ({openForEdit}) => {
 
     const tasks = useContext(TasksContext)
     const [loadedTasks, setLoadedTasks] = useState<Array<Task> | SetStateAction<Task>>([])
+
     const tasksUpdate = (tsks: Array<Task>) => {
         setLoadedTasks(tsks)
     }
@@ -53,7 +60,31 @@ export const Listing: FC<{}> = () => {
                                 <td>{tsk.getUpdatedAt()}</td>
                                 <td>{tsk.getDue()}</td>
                                 <td>{tsk.status}</td>
-                                <td>---</td>
+                                <td className={"table-action-column-td"}>
+                                    <div className={"table-action-btn"}
+                                        title={"edit task"}
+                                        onMouseDown={preventDefaults}
+                                        onClick={(event: any) => {
+                                            preventDefaults(event)
+                                            console.log(tsk.id)
+                                            openForEdit(tsk.id)
+
+                                        }}
+                                    >
+                                        <Icon path={mdiPencil} size={"16px"}/>
+                                    </div>
+                                    <div className={"table-action-btn delete"}
+                                        title={"delete task"}>
+                                        <Icon path={mdiClose} size={"16px"}/>
+                                    </div>
+                                    {
+                                        tsk.status !== "done" && 
+                                    <div className={"table-action-btn complete"}
+                                        title={"complete task"}
+                                        >
+                                            <Icon path={mdiCheck} size={"16px"}/></div>
+                                    }
+                                </td>
                             </tr>
                         ))
                 }

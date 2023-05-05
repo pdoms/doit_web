@@ -8,12 +8,16 @@ import {DateTime} from './datetime';
 interface DTInputs {
     call: boolean
     getDT: (dt: DateTime) => void
+    value: Date | null | undefined
+    doDiscard: boolean
 }
 
-export const Inputs: FC<DTInputs> = ({call, getDT}) => {
+export const Inputs: FC<DTInputs> = ({call, getDT, value, doDiscard}) => {
 
-    let dt = useContext(DateTimeContext)
-    let [placeholders, setPlaceholders] = useState({date: {} as DtFormatObject, time: {} as DtFormatObject})
+    const dt = useContext(DateTimeContext)
+    const [placeholders, setPlaceholders] = useState({date: {} as DtFormatObject, time: {} as DtFormatObject})
+    const [dateStr, setDateStr] = useState(null)
+    const [timeStr, setTimeStr] = useState(null)
  
     useEffect(() => {
         if (isRef(dt)) {
@@ -21,6 +25,20 @@ export const Inputs: FC<DTInputs> = ({call, getDT}) => {
         }
     }, [])
 
+    useEffect(() => {
+        if (value && isRef(dt) && value instanceof Date) {
+            dt.current.fromJsDate(value)
+            setDateStr(dt.current.toDateString())
+            setTimeStr(dt.current.toTimeStringNaive())
+        }
+    }, [value])
+
+    useEffect(() => {
+        if (doDiscard) {
+            setDateStr(null)
+            setTimeStr(null)
+        }
+    }, [doDiscard])
     return (<>
         <div>
             <DateInput 
@@ -34,11 +52,13 @@ export const Inputs: FC<DTInputs> = ({call, getDT}) => {
                 }}
                 getValue={false}
                 label={"due date"}
+                value={dateStr !== null ? dateStr : ""}
                 /> 
             <TimeInput 
                 label={"due time"}
                 id={"timeinput"}
                 placeholder={placeholders.time}
+                value={timeStr ? timeStr : ""}
                 onChange={(value: string) => {
                     if (isRef(dt)) {
                         dt.current.setTimeFromStr(value)

@@ -5,7 +5,7 @@ import {DateTime, doubleDigitString, validateHours, validateMinutes} from "./dat
 
 
 export const TimeInput: FC<IDateTimeInput> = ({
-    id, placeholder, onChange, label}) => {
+    id, value, placeholder, onChange, label}) => {
     const [value_H, setValue_H] = useState("")
     const [value_M, setValue_M] = useState("")
     const [error_H, setError_H] = useState(false)
@@ -19,6 +19,17 @@ export const TimeInput: FC<IDateTimeInput> = ({
     //false === am // true === pm
     const [period, setPeriod] = useState(false)
 
+    useEffect(() => {
+        if (value && value !== "") {
+            let split = value.split(":")
+            console.log(split)
+            setValue_H(split[0])
+            setValue_M(split[1])
+        }
+
+
+    }, [value])
+    
     useEffect(() => {
 
         if (!isEmpty(placeholder)) {

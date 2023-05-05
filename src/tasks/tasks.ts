@@ -52,6 +52,7 @@ export default class Tasks {
         this.url = url;
     }
 
+
     async get_all(): Promise<Array<Task>> {
         if (!this.url) {
             return []
@@ -95,6 +96,14 @@ export default class Tasks {
     }
 
     
+    setStatus(status: string) {
+        if (this.current_task && this.current_task !== null) {
+            this.current_task.setStatus(status)
+        }
+        this.print_current()
+    }
+
+
 
     resetCurrent() {
         this.current_task = null 
@@ -110,7 +119,7 @@ export default class Tasks {
         let url = this.url + "create"
         let request: Request = new Request(url, {
             method: "POST",
-            body: this._current_to_body(),
+            body: this._current_to_create_body(),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -120,24 +129,66 @@ export default class Tasks {
             this.resetCurrent()
             return await this.get_all()
         } else {
-            console.log("not good");
+            console.error("Error creating task");
         }
     }
 
+    async update_task(): Promise<Task | any> {
+        if (!this.url) {
+            return {}
+        }
+        if (this.url && !this.url.endsWith("/")) {
+            this.url += "/";
+        }
+        let request: Request = new Request(this.url, {
+            method: "PUT",
+            body: this._current_to_update_body(),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
 
-    _current_to_body(): string | null {
+        let response:Response = await fetch(request);
+        if (response.status >= 200) {
+            let data = await response.json()
+            this.get_all()
+            return Task.fromRaw(data)
+        } else {
+            console.error("Error creating task");
+        }
+        
+    
+    }
+
+
+    _current_to_create_body(): string | null {
         if (this.current_task !== null) {
         let dto = {
             name: this.current_task.name,
             description: this.current_task.description || "",
             due: this.current_task.due || null
             }
-            console.log(JSON.stringify(dto))
             return JSON.stringify(dto)
         }
         return null
     }
 
+    _current_to_update_body(): string | null {
+        if (this.current_task !== null) {
+        let dto = {
+            id: this.current_task.id, 
+            name: this.current_task.name,
+            description: this.current_task.description || "",
+            due: this.current_task.due || null,
+            status: this.current_task.status,
+            created_at: this.current_task.created_at?.toISOString(),
+            updated_at: this.current_task.updated_at?.toISOString()
+            
+            }
+            return JSON.stringify(dto)
+        }
+        return null
+    }
     async get_by_id(id: string, set_current=false): Promise<Task> {
         if (!this.url) {
             return {} as Task
