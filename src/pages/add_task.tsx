@@ -7,12 +7,22 @@ import {isRef} from '../utils';
 
 interface IAddTask {
     onDiscard: () => void
+    doDiscard: boolean
 }
 
-export const AddTask: FC<IAddTask> = ({onDiscard}) => {
+
+//TODO reset datetime
+
+export const AddTask: FC<IAddTask> = ({onDiscard, doDiscard}) => {
     
     const tasks = useContext(TasksContext)
     const [reset, setReset] = useState(false)
+
+    useEffect(() => {
+        if (doDiscard) {
+            setReset(true)
+        }
+    }, [doDiscard])
 
     useEffect(() => {
         if (isRef(tasks)) {
@@ -75,7 +85,8 @@ export const AddTask: FC<IAddTask> = ({onDiscard}) => {
                 />
                 </div>
             <div className="add-task-section-right">
-                    <DateTimePicker 
+                    <DateTimePicker
+                        value={null}
                         call={false}
                         getDT={(dt: DateTime) => {
                             handleInput("due", dt, null)

@@ -62,6 +62,7 @@ body {
 
 .btn-text:hover {
     opacity: 0.8;
+    cursor: pointer;
 }
 
 .btn-text.active {
@@ -84,6 +85,7 @@ body {
     justify-content: center;
     margin: 8px 4px;
     position: relative;
+    font-family: Helvetica
 }
 
 .text-input-label {
@@ -100,6 +102,7 @@ body {
 
 
 .text-input {
+    font-family: Helvetica;
     padding-left: 2px;
     border-radius: 3px 0px 0px 3px;
     border-top: 1px solid var(--global-thin-border);
@@ -472,6 +475,33 @@ tbody tr:hover  {
     background: var(--global-bg-sec-opaque);
 }
 
+.table-action-column-td {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.table-action-btn {
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-action-btn.complete {
+    color: #07b335;
+}
+.table-action-btn.delete {
+    color: var(--global-error-color);
+}
+
+
+.table-action-btn:hover {
+    color: var(--global-blue1);
+}
+
+
 
 
 .add-task-section {
@@ -494,7 +524,9 @@ tbody tr:hover  {
     margin-right: 20px;
 }
 
-
+.edit-task-status {
+    margin: 4px 0px;
+}
 
 
 

@@ -70,6 +70,19 @@ describe(
             dt.setSeconds(0)
             expect(dt.toJsDate()).toEqual(new Date(2023, 4, 1, 11, 1, 0))
         })
+
+        test("is gt now", () => {
+            let now = new Date(Date.now())
+            let dt = new DateTime()
+            dt.setMDY(now.getMonth()+1, now.getDate(), now.getFullYear())
+            dt.setHMS(now.getHours()-2, now.getMinutes(), now.getSeconds())
+            expect(dt.isGtNow()).toBeFalsy()
+            dt.setHours(now.getHours()+2)
+            expect(dt.isGtNow()).toBeTruthy()
+            dt.setHours(now.getHours())
+            expect(dt.isGtNow()).toBeFalsy()
+
+        })
 }) 
 
 

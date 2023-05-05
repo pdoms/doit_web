@@ -41,10 +41,14 @@ minutes:  ${this.minutes}
 seconds:  ${this.seconds}`)  
     }
     
-    getDisplayDate(fmt=FMT_DATE) {}
-    getDisplayTime(fmt=FMT_TIME) {}
-    getDisplayDateTime(fmt=FMT_DT) {}
-    
+    fromJsDate(date: Date) {
+        this.day     = date.getDate()
+        this.month   = date.getMonth() + 1
+        this.year    = date.getFullYear()
+        this.hours   = date.getHours()
+        this.minutes = date.getMinutes()
+        this.seconds = date.getSeconds()
+    }   
 
 
     now() {
@@ -202,6 +206,30 @@ seconds:  ${this.seconds}`)
         }
     }
 
+    toTimeStringNaive() {
+        let str = []
+        if (this.hours === null) {
+            return ""
+        }
+        if (this.hours >= 12) {
+            str.push(doubleDigitString(this.hours-12))
+        } else {
+            str.push(doubleDigitString(this.hours))
+        }
+        if (this.minutes) {
+            str.push(doubleDigitString(this.minutes))
+        } else {
+            str.push(doubleDigitString(0))
+        }
+        if (this.seconds) {
+            str.push(doubleDigitString(this.seconds))
+        } else {
+            str.push(doubleDigitString(0))
+        }
+        return str.join(":")
+
+    }
+
     allAreNull() {
         return [this.month, this.day, this.year, this.hours, this.minutes, this.seconds].every((item: number | null) => item === null)
     }
@@ -241,7 +269,18 @@ seconds:  ${this.seconds}`)
             return null
         }
         return d
-        
+    }
+
+    isGtNow() {
+        let jsdate = this.toJsDate()
+        if (jsdate !== null) { 
+            let date_obj = Date.parse(jsdate.toLocaleString())
+            let now = Date.now()
+            return date_obj > now
+        } else {
+            return false
+        }
+
     }
 }
 

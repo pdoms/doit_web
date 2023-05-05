@@ -63,6 +63,9 @@ export default class Task {
         this.due = d.toJsDate()
     }
 
+    setStatus(status: string) {
+        this.status = status
+    }
     getCreatedAt() {
         if (!this.created_at) {
             return "-"
