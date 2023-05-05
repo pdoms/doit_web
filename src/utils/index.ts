@@ -55,7 +55,6 @@ export function isEmpty(trg: any) {
     }
 
     if (typeof trg === "object") {
-        console.log(trg)
         return Object.keys(trg).length === 0
     }
     return false 

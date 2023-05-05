@@ -66,7 +66,6 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
                                         onMouseDown={preventDefaults}
                                         onClick={(event: any) => {
                                             preventDefaults(event)
-                                            console.log(tsk.id)
                                             openForEdit(tsk.id)
 
                                         }}
