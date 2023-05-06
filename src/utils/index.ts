@@ -1,4 +1,5 @@
 import {MutableRefObject} from "react"
+import Tasks from "../tasks/tasks"
 export * from "./clickListener"
 
 export function preventDefaults(event: any): void {
@@ -65,5 +66,9 @@ export function validateRegexStr(rx: string, value: string): boolean {
     let regex = new RegExp(rx)
     return regex.test(value)
 }
+ 
+export const STATUS_TO_STR: Array<TaskStatus> = ["Overdue", "Created", "Done", "Deleted"] 
+export const STR_TO_STATUS: {[key: string]: number} = {"Overdue": 0, "Created": 1, "Done": 2, "Deleted": 3}
+
 
 

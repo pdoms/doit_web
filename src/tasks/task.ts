@@ -1,10 +1,10 @@
 import {DateTime} from "../comps/datetime/datetime";
-import {readDateFromRawTask} from "../utils";
+import {readDateFromRawTask, STATUS_TO_STR} from "../utils";
 
 export default class Task {
     id: string;
     name: string;
-    status: string;
+    status: TaskStatus;
     description?: string | undefined;
     created_at?: Date | null | undefined;
     updated_at?: Date | null | undefined;
@@ -19,7 +19,7 @@ export default class Task {
         this.description = undefined;
         this.created_at = null;
         this.updated_at = null;
-        this.status = "created"
+        this.status = "Created" 
         this.due = undefined
     }
 
@@ -28,7 +28,7 @@ export default class Task {
         const tsk = new Task();
         tsk.id = raw.id;
         tsk.name = raw.name;
-        tsk.status = tsk.status
+        tsk.status = STATUS_TO_STR[raw.status]
         if (raw.description) {
             tsk.description = raw.description;
         }
@@ -41,10 +41,6 @@ export default class Task {
         if (raw.due) {
             tsk.due = readDateFromRawTask(raw.due)
         }
-        if (raw.status) {
-            tsk.status = raw.status
-        }
-
         return tsk;
     }
 
@@ -63,9 +59,14 @@ export default class Task {
         this.due = d.toJsDate()
     }
 
-    setStatus(status: string) {
+    setStatus(status: TaskStatus) {
         this.status = status
     }
+
+    getStatus() {
+        return this.status
+    }
+
     getCreatedAt() {
         if (!this.created_at) {
             return "-"

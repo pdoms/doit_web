@@ -24,7 +24,7 @@ export const EditTask: FC<IEditTask> = ({task_id, onDiscard, doDiscard, doClose}
         if (isRef(tasks) && task_id) {
             tasks.current.get_by_id(task_id, true).then((tsk: Task) => {
                 setTask(tsk)
-                if (tsk.status === "overdue") {
+                if (tsk.status === "Overdue") {
                     setOverdue(true)
                 } else {
                     setOverdue(false)
@@ -59,7 +59,7 @@ export const EditTask: FC<IEditTask> = ({task_id, onDiscard, doDiscard, doClose}
                     ts.setDue(value)
                     if ((value as DateTime).isGtNow()) {
                         setOverdue(false)
-                        ts.setStatus("created")
+                        ts.setStatus("Created")
                         setTask(ts.current_task)
                     }
                     break;

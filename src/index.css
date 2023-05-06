@@ -496,6 +496,9 @@ tbody tr:hover  {
     color: var(--global-error-color);
 }
 
+.table-action-btn.reactivate {
+    color: var(--global-text1);
+}
 
 .table-action-btn:hover {
     color: var(--global-blue1);

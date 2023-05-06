@@ -1,4 +1,5 @@
 import {DateTime} from "../comps/datetime/datetime";
+import {STR_TO_STATUS} from "../utils";
 import Task from "./task";
 
 export default class Tasks {
@@ -96,7 +97,7 @@ export default class Tasks {
     }
 
     
-    setStatus(status: string) {
+    setStatus(status: TaskStatus) {
         if (this.current_task && this.current_task !== null) {
             this.current_task.setStatus(status)
         }
@@ -180,7 +181,7 @@ export default class Tasks {
             name: this.current_task.name,
             description: this.current_task.description || "",
             due: this.current_task.due || null,
-            status: this.current_task.status,
+            status: STR_TO_STATUS[this.current_task.status],
             created_at: this.current_task.created_at?.toISOString(),
             updated_at: this.current_task.updated_at?.toISOString()
             
@@ -208,4 +209,45 @@ export default class Tasks {
         }
         return {} as Task
     }
+
+    async setDone(task: Task): Promise<Task> {
+        this.current_task = task
+        let result_task = await this.set_status(STR_TO_STATUS["Done"])
+        return result_task
+    }
+    
+    async setDeleted(task: Task): Promise<Task> {
+        this.current_task = task   
+        let result_task = await this.set_status(STR_TO_STATUS["Deleted"])
+        return result_task
+    }
+    async setReactivated(task: Task): Promise<Task> {
+        this.current_task = task   
+        let result_task = await this.set_status(STR_TO_STATUS["Created"])
+        return result_task
+    }
+
+    async set_status(status: number): Promise<Task> {
+        console.log("GOT HERE")
+        if (this.current_task === null) {
+            return {} as Task
+        }
+        if (!this.url) {
+            return {} as Task
+        }
+        if (this.url && !this.url.endsWith("/")) {
+            this.url += "/";
+        }
+        let url = this.url + `set/${this.current_task.id}/${status}`;
+        let response: Response = await fetch(url);
+        if (response.status === 200) {
+            let raw_task = await response.json();
+            this.get_all()
+            let task = Task.fromRaw(raw_task)
+            this.current_task = task
+            return task;
+        }
+        return {} as Task
+    }
+
 }

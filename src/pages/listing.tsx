@@ -1,4 +1,4 @@
-import {mdiCheck, mdiClose, mdiPencil} from '@mdi/js';
+import {mdiArrowULeftTopBold, mdiCheck, mdiClose, mdiPencil} from '@mdi/js';
 import Icon from '@mdi/react';
 import React, { FC, SetStateAction, useContext, useEffect, useState } from 'react';
 import {TasksContext} from '../contexts/tasksContext';
@@ -8,6 +8,7 @@ import {getRestUrl, isRef, preventDefaults, waitForRef} from '../utils';
 interface IListing {
     openForEdit: (task_id: string) => void
 }
+
 
 export const Listing: FC<IListing> = ({openForEdit}) => {
 
@@ -53,7 +54,7 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
                 {
                     loadedTasks && 
                         (loadedTasks as Array<Task>).map((tsk: Task, idx: number) => (
-                            <tr key={tsk.id || idx}>
+                            <tr key={tsk.id || idx} style={tsk.status === "Done" || tsk.status === "Deleted" ? {opacity: "0.5"}:{}}>
                                 <td>{tsk.name}</td>
                                 <td>{tsk.description || "-"}</td>
                                 <td>{tsk.getCreatedAt()}</td>
@@ -73,15 +74,45 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
                                         <Icon path={mdiPencil} size={"16px"}/>
                                     </div>
                                     <div className={"table-action-btn delete"}
-                                        title={"delete task"}>
+                                        title={"delete task"}
+                                        onMouseDown={preventDefaults}
+                                        onClick={(event: any) => {
+                                            preventDefaults(event)
+                                            if (isRef(tasks)) {
+                                                tasks.current.setDeleted(tsk).then()
+                                            }
+                                        }}
+                                        >
                                         <Icon path={mdiClose} size={"16px"}/>
                                     </div>
                                     {
-                                        tsk.status !== "done" && 
+                                        tsk.status !== "Done" && tsk.status !== "Deleted" &&
                                     <div className={"table-action-btn complete"}
                                         title={"complete task"}
+                                        onMouseDown={preventDefaults}
+                                        onClick={(event: any) => {
+                                            preventDefaults(event)
+                                            if (isRef(tasks)) {
+                                                tasks.current.setDone(tsk).then()
+                                            }
+
+                                        }}
                                         >
                                             <Icon path={mdiCheck} size={"16px"}/></div>
+                                    }
+                                    {
+                                         tsk.status === "Deleted" &&
+                                    <div className={"table-action-btn reactivate"}
+                                        title={"re-activate task"}
+                                        onMouseDown={preventDefaults}
+                                        onClick={(event: any) => {
+                                            preventDefaults(event)
+                                            if (isRef(tasks)) {
+                                                tasks.current.setReactivated(tsk).then()
+                                            }
+                                        }}
+                                        >
+                                            <Icon path={mdiArrowULeftTopBold} size={"16px"}/></div>
                                     }
                                 </td>
                             </tr>

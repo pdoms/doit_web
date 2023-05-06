@@ -11,10 +11,12 @@ declare global {
 
     type IDX = number
 
+    type TaskStatus = "Overdue" | "Created" | "Done" | "Deleted"
+
     type RawTask = {
         id: string;
         name: string;
-        status: string;
+        status: number;
         description?: string | undefined;
         created_at: Date;
         updated_at: Date;
