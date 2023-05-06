@@ -54,7 +54,11 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
                 {
                     loadedTasks && 
                         (loadedTasks as Array<Task>).map((tsk: Task, idx: number) => (
-                            <tr key={tsk.id || idx} style={tsk.status === "Done" || tsk.status === "Deleted" ? {opacity: "0.5"}:{}}>
+                            <tr key={tsk.id || idx} 
+                                className={`table-row-marked ${tsk.status === "Done" 
+                                    || tsk.status === "Deleted" ? 
+                                    "faded" : tsk.status === "Overdue" ? 
+                                    "overdue" : ""}`}>
                                 <td>{tsk.name}</td>
                                 <td>{tsk.description || "-"}</td>
                                 <td>{tsk.getCreatedAt()}</td>

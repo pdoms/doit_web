@@ -475,6 +475,13 @@ tbody tr:hover  {
     background: var(--global-bg-sec-opaque);
 }
 
+.table-row-marked.faded {
+    opacity: 0.5;
+}
+.table-row-marked.overdue {
+    background: rgba(143, 40, 43, 0.2); 
+}
+
 .table-action-column-td {
     display: flex;
     flex-direction: row;
