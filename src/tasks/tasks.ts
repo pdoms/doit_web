@@ -2,6 +2,8 @@ import {DateTime} from "../comps/datetime/datetime";
 import {STR_TO_STATUS} from "../utils";
 import Task from "./task";
 
+
+//TODO indicate zero data at get all and filter results
 export default class Tasks {
     url: string | undefined;
     loaded: Array<Task>
@@ -64,10 +66,13 @@ export default class Tasks {
         const response: Response = await fetch(this.url);
         const raw: Array<RawTask> = await response.json();
         this.loaded = []
-        for (let i = 0; i < raw.length; i++) {
-            const task = Task.fromRaw(raw[i]);
-            this.loaded.push(task);
+        if (Array.isArray(raw)) {
+            for (let i = 0; i < raw.length; i++) {
+                const task = Task.fromRaw(raw[i]);
+                this.loaded.push(task);
+            }
         }
+        
         this.updateAll()
         return this.loaded;
     }
@@ -251,4 +256,28 @@ export default class Tasks {
         return {} as Task
     }
 
+    async do_text_search(needle: string) {
+        if (!this.url) {
+            return []
+        }
+        if (this.url && !this.url.endsWith("/")) {
+            this.url += "/";
+        }
+        const url = this.url + "global?term=" + needle
+        const response: Response = await fetch(url);
+        const raw: Array<RawTask> = await response.json();
+        this.loaded = []
+        if (Array.isArray(raw)) {
+            for (let i = 0; i < raw.length; i++) {
+                const task = Task.fromRaw(raw[i]);
+                this.loaded.push(task);
+            }
+        }
+        this.updateAll()
+        return this.loaded;
+    }
+
+    reset_search() {
+        this.get_all().then()
+    }
 }

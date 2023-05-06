@@ -1,6 +1,9 @@
 import {mdiPlus, mdiPlusCircle, mdiPlusOutline} from '@mdi/js';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useContext, useEffect, useState} from 'react';
+import {SearchInput} from '../../comps';
 import {IconBtn} from '../../comps/icn_btn';
+import {TasksContext} from '../../contexts/tasksContext';
+import {isRef} from '../../utils';
 
 interface IDashBoardHeader {
     isEdit: boolean
@@ -12,9 +15,12 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
     {
         onAdd,
         discard,
-        isEdit
+        isEdit,
     }) => {
     const [isOpen, setIsOpen] = useState(false)
+
+    const tasks = useContext(TasksContext)
+
     
     useEffect(() => {
         onAdd(isOpen)
@@ -26,11 +32,26 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
         }
     }, [discard])
 
+    const handleOnSearch = (val: string, _event: any) => {
+        if (isRef(tasks)) {
+            tasks.current.do_text_search(val)
+        }
+    }
+    const handleOnAbort = () => {
+        if (isRef(tasks)) {
+            tasks.current.reset_search()   
+        }
+    }
+
 
     return (<>
-        <div className='dashboard-header'>
+        <div className="dashboard-header" >
             {isOpen ? <div>Create Task</div>: isEdit ? <div>Edit Task</div>:<div>Your Tasks</div>}
-            <div>
+                <SearchInput
+                    id={"task_search"}
+                    onSearch={handleOnSearch}
+                    onAbort={handleOnAbort}
+                />
                 <IconBtn 
                     id={"create-task"} 
                     mdiPath={mdiPlusCircle} 
@@ -40,7 +61,6 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
                     }}
                     isActive={isOpen}
                     />
-            </div>
         </div>
     </>)
 }
