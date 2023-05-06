@@ -1,3 +1,4 @@
+import {doc} from 'prettier';
 import React, {FC, useContext, useEffect, useState} from 'react';
 import {DateTimePicker, TextArea, TextInput} from '../comps';
 import {DateTime} from '../comps/datetime/datetime';
@@ -8,12 +9,13 @@ import {isRef} from '../utils';
 interface IAddTask {
     onDiscard: () => void
     doDiscard: boolean
+    doClose: () => void
+    
+    
 }
 
 
-//TODO reset datetime
-
-export const AddTask: FC<IAddTask> = ({onDiscard, doDiscard}) => {
+export const AddTask: FC<IAddTask> = ({onDiscard, doDiscard, doClose}) => {
     
     const tasks = useContext(TasksContext)
     const [reset, setReset] = useState(false)
@@ -51,7 +53,14 @@ export const AddTask: FC<IAddTask> = ({onDiscard, doDiscard}) => {
 
     const doCreate = () => {
         if (isRef(tasks)) {
-            tasks.current.create_task().then()
+            tasks.current.create_task().then(() => {
+                    doClose()
+                    setReset(true)
+                    setTimeout(() => {
+                        setReset(false)
+                    }, 500)
+                }
+            )
         }
     }
 
@@ -91,6 +100,7 @@ export const AddTask: FC<IAddTask> = ({onDiscard, doDiscard}) => {
                         getDT={(dt: DateTime) => {
                             handleInput("due", dt, null)
                         }}
+                        doDiscard={reset}
                     />
             </div>
             </div>

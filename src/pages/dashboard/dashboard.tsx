@@ -25,6 +25,9 @@ export const Dashboard = () => {
                 {addActive && 
                     <div>
                         <AddTask 
+                            doClose={() => {
+                                setAddActive(false)
+                                }}
                             onDiscard={() => {
                                 setAddActive(false)
                             }}

@@ -131,6 +131,7 @@ export default class Tasks {
             return await this.get_all()
         } else {
             console.error("Error creating task");
+            return response.status
         }
     }
 
@@ -156,6 +157,7 @@ export default class Tasks {
             return Task.fromRaw(data)
         } else {
             console.error("Error creating task");
+            return response.status
         }
         
     
@@ -228,7 +230,6 @@ export default class Tasks {
     }
 
     async set_status(status: number): Promise<Task> {
-        console.log("GOT HERE")
         if (this.current_task === null) {
             return {} as Task
         }
