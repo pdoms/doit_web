@@ -221,6 +221,18 @@ body {
     color: var(--global-blue1);
     cursor: pointer;
 }
+
+
+
+.search-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    height: 24px;
+    padding-top: 4px;
+    margin-left: 8px;
+}
 /* ###### Date Time Input ######*/
 
 
@@ -585,7 +597,10 @@ tbody tr:hover  {
     color: var(--global-blue1);
 }
 
-
+.table-no-tasks {
+    margin-top: 40px;
+    margin-right: 20px;
+}
 
 
 .add-task-section {

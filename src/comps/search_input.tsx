@@ -8,13 +8,15 @@ interface ISearchInput {
     onChange?: (val: string, event: any) => void
     onSearch: (val: string, event: any) => void
     onAbort: () => void
+    resLen: number | null
 }
 
 export const SearchInput: FC<ISearchInput> = ({
     id,
     onChange,
     onSearch,
-    onAbort
+    onAbort,
+    resLen
 }) => {
     const [value, setValue] = useState("")
     const [isInFocus, setIsInFocus] = useState(false)
@@ -79,6 +81,7 @@ export const SearchInput: FC<ISearchInput> = ({
                     <Icon path={mdiMagnify} size={"18px"}/>
                 </div>
             </div>
+            {resLen !== null && <div className="search-results">Results: {resLen}</div>}
         </div>
     </>)
 }

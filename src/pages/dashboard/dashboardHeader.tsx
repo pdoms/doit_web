@@ -3,6 +3,7 @@ import React, {FC, useContext, useEffect, useState} from 'react';
 import {SearchInput} from '../../comps';
 import {IconBtn} from '../../comps/icn_btn';
 import {TasksContext} from '../../contexts/tasksContext';
+import Task from '../../tasks/task';
 import {isRef} from '../../utils';
 
 interface IDashBoardHeader {
@@ -18,6 +19,7 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
         isEdit,
     }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [results, setResults] = useState(null)
 
     const tasks = useContext(TasksContext)
 
@@ -34,13 +36,20 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
 
     const handleOnSearch = (val: string, _event: any) => {
         if (isRef(tasks)) {
-            tasks.current.do_text_search(val)
+            tasks.current.do_text_search(val).then((e: Array<Task> | any) => {
+                if (val.length > 0) {
+                    setResults(e.length)
+                }
+            })  
+
         }
     }
     const handleOnAbort = () => {
         if (isRef(tasks)) {
-            tasks.current.reset_search()   
-        }
+            tasks.current.reset_search()        
+                setResults(null)
+            }
+
     }
 
 
@@ -51,6 +60,7 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
                     id={"task_search"}
                     onSearch={handleOnSearch}
                     onAbort={handleOnAbort}
+                    resLen={results}
                 />
                 <IconBtn 
                     id={"create-task"} 

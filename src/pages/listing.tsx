@@ -52,7 +52,7 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
             </thead>      
             <tbody>
                 {
-                    loadedTasks && 
+                    loadedTasks && (loadedTasks as Array<Task>).length > 0?
                         (loadedTasks as Array<Task>).map((tsk: Task, idx: number) => (
                             <tr key={tsk.id || idx} 
                                 className={`table-row-marked ${tsk.status === "Done" 
@@ -121,6 +121,7 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
                                 </td>
                             </tr>
                         ))
+                :<div className={"table-no-tasks"}>0 tasks were found...</div>
                 }
             </tbody>      
         </table>
