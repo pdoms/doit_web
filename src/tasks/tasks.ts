@@ -2,13 +2,16 @@ import {DateTime} from "../comps/datetime/datetime";
 import {STR_TO_STATUS} from "../utils";
 import Task from "./task";
 
+const INTERVAL = 60 * 1000
 
-//TODO indicate zero data at get all and filter results
 export default class Tasks {
     url: string | undefined;
     loaded: Array<Task>
     current_task: Task | null 
     _events: {[key: string]: TasksUpdateFn}
+    in_search: boolean
+    interval: ReturnType<typeof setInterval> | null
+    
 
     constructor(url?: string) {
         /*
@@ -28,6 +31,14 @@ export default class Tasks {
         * Holds the update functions.
        * **/
         this._events ={}
+        /**
+         * indicates whether this.loaded is a search result or not
+        * **/
+        this.in_search = false
+        /*
+         * Holds the interval id
+         * */
+         this.interval = null
     }
 
     print_current() {
@@ -73,7 +84,7 @@ export default class Tasks {
             }
         }
         
-        this.updateAll()
+        this.updateById("listing")
         return this.loaded;
     }
 
@@ -272,12 +283,39 @@ export default class Tasks {
                 const task = Task.fromRaw(raw[i]);
                 this.loaded.push(task);
             }
+            this.in_search = true 
         }
-        this.updateAll()
+        if (this.in_search) {
+            this.stop_autorefresh()
+        }
+        this.updateById("listing")
         return this.loaded;
     }
 
     reset_search() {
+        this.in_search = false
         this.get_all().then()
+        this.start_autorefresh()
     }
+    
+    do_refresh(auto=false) {
+            this.get_all()
+            this.updateById(auto ? "autorefresh" : "refresh")
+    }
+    start_autorefresh() {
+        console.info("Starting/Resuming autorefresh")
+        if (this.interval === null) {
+            this.interval = setInterval(() => {this.do_refresh(true)}, INTERVAL) 
+        }
+    }
+
+    stop_autorefresh() {
+        console.info("Stopping autorefresh")
+        if (this.interval !== null) {
+            window.clearInterval(this.interval)
+            this.interval = null
+        } 
+    }
+
+
 }
