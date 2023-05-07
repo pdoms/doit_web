@@ -40,7 +40,6 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
     <>
         <table className="table-wrap">
             <thead>
-                <tr className="table-header">
                     <th>Name</th>
                     <th>Description</th>
                     <th>Created</th>
@@ -48,7 +47,6 @@ export const Listing: FC<IListing> = ({openForEdit}) => {
                     <th>Due</th>
                     <th>Status</th>
                     <th>Action</th>
-                </tr>
             </thead>      
             <tbody>
                 {
