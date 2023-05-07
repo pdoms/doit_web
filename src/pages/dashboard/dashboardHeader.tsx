@@ -1,4 +1,4 @@
-import {mdiPlus, mdiPlusCircle, mdiPlusOutline, mdiRefresh, mdiRefreshAuto} from '@mdi/js';
+import {mdiFilter, mdiPlus, mdiPlusCircle, mdiPlusOutline, mdiRefresh, mdiRefreshAuto} from '@mdi/js';
 import React, {FC, useContext, useEffect, useState} from 'react';
 import {SearchInput} from '../../comps';
 import {IconBtn} from '../../comps/icn_btn';
@@ -112,7 +112,7 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
                         <Icon path={mdiRefresh} size={"22px"}/>  :   
                     <Icon path={mdiRefreshAuto} size={"22px"}/>    
                     }
-               </div>
+               </div> 
                 <IconBtn 
                     id={"create-task"} 
                     mdiPath={mdiPlusCircle} 

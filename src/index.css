@@ -45,6 +45,7 @@ body {
 .btn:hover {
     color: var(--global-blue1);
     opacity: 0.8;
+    cursor: pointer;
 }
 
 .btn-text {
@@ -552,12 +553,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 4px;
     transition: color 2s linear;
 }
 
 .dashboard-header-refresher.active {
     color: var(--global-blue1);
+}
+.dashboard-header-refresher:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 
 
