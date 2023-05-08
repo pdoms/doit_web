@@ -7,6 +7,10 @@ import Task from '../../tasks/task';
 import {isRef, preventDefaults} from '../../utils';
 import Icon from '@mdi/react';
 
+const TITLE = `Key words will look through the 'name' and 'description' column. 
+Use ':status:yourstatus' or ':status:yourfirststatus;yoursecondstatus' to 
+filter by status. Where ';' indicates an 'or' relationship. E.g.: ':status:overdue;done
+will yield all task that have the status 'Overdue' OR 'Done'.`
 
 interface IDashBoardHeader {
     isEdit: boolean
@@ -97,6 +101,7 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
                     onSearch={handleOnSearch}
                     onAbort={handleOnAbort}
                     resLen={results}
+                    title={TITLE}
                 />
                </div>
                <div className="dashboard-header-right">
@@ -125,3 +130,4 @@ export const DashBoardHeader: FC<IDashBoardHeader>  = (
         </div>
     </>)
 }
+

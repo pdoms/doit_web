@@ -274,7 +274,7 @@ export default class Tasks {
         if (this.url && !this.url.endsWith("/")) {
             this.url += "/";
         }
-        const url = this.url + "global?term=" + needle
+        const url = this.url + "filter?term=" + needle
         const response: Response = await fetch(url);
         const raw: Array<RawTask> = await response.json();
         this.loaded = []

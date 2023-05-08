@@ -9,6 +9,7 @@ interface ISearchInput {
     onSearch: (val: string, event: any) => void
     onAbort: () => void
     resLen: number | null
+    title: string
 }
 
 export const SearchInput: FC<ISearchInput> = ({
@@ -16,7 +17,8 @@ export const SearchInput: FC<ISearchInput> = ({
     onChange,
     onSearch,
     onAbort,
-    resLen
+    resLen,
+    title
 }) => {
     const [value, setValue] = useState("")
     const [isInFocus, setIsInFocus] = useState(false)
@@ -53,7 +55,9 @@ export const SearchInput: FC<ISearchInput> = ({
         <div
             onKeyDown={handleKeys}
             id={id}
-            className="search-input-wrapper">
+            className="search-input-wrapper"
+            title={title}
+            >
             <div className={`search-input-box`}>
                 <input 
                     ref={el}
