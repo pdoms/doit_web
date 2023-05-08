@@ -11,18 +11,15 @@ export class DtValidator {
 
     validateDate(str: string): "" | string | null {
         if (str.length === 0) {
-            this.setDateNull()
             return null
         }
 
         if (str.length === 1) {
             if (str === "0") {
-                this.setDateNull()
                return null
             }
             let val = try_int(str) 
             if (val === null) {
-                this.setDateNull()
                 return null
             } else {
                 this.validated_day = val
